@@ -12,6 +12,10 @@ public class User {
     private Long id;
 
     private String email;
+    private String username;
+    private String password;
+
+
 
     public String getEmail() {
         return email;
@@ -21,8 +25,7 @@ public class User {
         this.email = email;
     }
 
-    private String username;
-    private String password;
+
 
     public Long getId() {
         return id;
