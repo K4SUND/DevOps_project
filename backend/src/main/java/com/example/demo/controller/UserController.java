@@ -6,6 +6,7 @@ import com.example.demo.service.JWTService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -17,11 +18,15 @@ public class UserController {
     private final UserService userService;
     private final JWTService jwtService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserController(UserService userService, JWTService jwtService) {
+    public UserController(UserService userService, JWTService jwtService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
 
 
@@ -48,7 +53,7 @@ public class UserController {
     public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
         return userService.findByUsername(loginRequest.getUsername())
                 .map(user -> {
-                    if (user.getPassword().equals(loginRequest.getPassword())) {
+                    if (passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())) {
                         String token = jwtService.generateToken(user.getUsername());
                         return ResponseEntity.ok(Map.of("token", token));
                     } else {
