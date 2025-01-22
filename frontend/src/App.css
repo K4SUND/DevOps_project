@@ -1,38 +1,70 @@
-.App {
-  text-align: center;
+.css-2af4ub {
+  min-height: 75vh;
+  width: 100%;
+  opacity: 1;
+  background: transparent;
+  color: #344767;
+  border-radius: none;
+  box-shadow: none;
+  background-image: url("https://images.wallpapersden.com/image/download/karate-kid-legends-new-movie_bmhmZWaUmZqaraWkpJRmZ21lrWxnZQ.jpg");
+  -webkit-background-size: cover;
+  background-size: cover;
+  -webkit-background-position: top;
+  background-position: top;
+  display: grid
+;
+  place-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+div {
+  display: block;
+  unicode-bidi: isolate;
 }
 
-.App-link {
-  color: #61dafb;
+body {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.625;
+  letter-spacing: 0.00938em;
+  background-color: #f0f2f5;
+}
+body {
+  --google-font-color-materialiconstwotone: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
