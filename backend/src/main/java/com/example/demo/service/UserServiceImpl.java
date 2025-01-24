@@ -3,6 +3,8 @@ package com.example.demo.service;
 import com.example.demo.dao.UserDAO;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,12 +14,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService{
 
     private final UserDAO userDAO;
-
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO) {
+    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
 
     @Override
@@ -27,6 +31,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User saveUser(User user) {
-        return userDAO.save(user);
+        try{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            return userDAO.save(user);
+        }
+        catch (DataIntegrityViolationException e)
+        {
+            throw new IllegalArgumentException("Email or Username already exists.");
+        }
+
     }
 }
