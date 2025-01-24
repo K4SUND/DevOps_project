@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MovieInfo from "./pages/MovieInfo";
 import Navbar from "./components/Navbar";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import SignupPage from "./pages/SignupPage/SignupPage";
 
 function App() {
   const movies = [
@@ -141,7 +143,14 @@ function App() {
         <Routes>
           {/* Movies list page */}
           <Route path="/" element={<MoviesPage movies={movies} />} />
-
+          <Route
+            path="/login"
+            element={<LoginPage />}
+          />
+          <Route
+            path="/signup"
+            element={<SignupPage />}
+          />
           {/* Movie details page */}
           <Route
             path="/movie/:id"
