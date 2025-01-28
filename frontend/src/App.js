@@ -1,6 +1,9 @@
 import React from "react";
 import MovieInfo from "./pages/MovieInfo";  // Make sure MovieDetails is updated to match the new design
 import Navbar from "./components/Navbar";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import { BrowserRouter as Router,Route,Routes } from 'react-router-dom';
 
 function App() {
   const movie = {
@@ -20,17 +23,25 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <MovieInfo
-        title={movie.title}
-        description={movie.description}
-        releaseDate={movie.releaseDate}
-        rating={movie.rating}
-        imageUrl={movie.imageUrl}
-        genre={movie.genre}
-        duration={movie.duration}
-        criticsRating={movie.criticsRating}
-        usersRating={movie.usersRating}
-      />
+      <Router>
+        <Routes>
+          <Route path='/' element ={<MovieInfo
+          title={movie.title}
+          description={movie.description}
+          releaseDate={movie.releaseDate}
+          rating={movie.rating}
+          imageUrl={movie.imageUrl}
+          genre={movie.genre}
+          duration={movie.duration}
+          criticsRating={movie.criticsRating}
+          usersRating={movie.usersRating}
+          />}></Route>
+          <Route path='/signup' element={<Signup/>}></Route>
+          <Route path='/login' element={<Login/>}></Route>
+
+        </Routes>
+      </Router>
+     
     </div>
   );
 }
