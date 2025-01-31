@@ -1,9 +1,11 @@
 import { useState } from "react";
 import React from "react";
 import "./LoginPage.css";
+import axios from 'axios'
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleGoogleLogin = () => {
@@ -11,11 +13,28 @@ const LoginPage = () => {
     // Add your Google authentication logic here
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
     console.log("Email:", email);
     console.log("Password:", password);
-    // Add your form submission logic here
+    axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_API_BASE_URL}/api/users/login`,
+      data: {
+            "username": email,
+            "password": password
+      }
+    })
+      .then(response => console.log(response.data))
+      .catch(error => {
+        if (error.response) {
+          console.error('Server responded with:', error.response.status);
+        } else if (error.request) {
+          console.error('No response received');
+        } else {
+          console.error('Error:', error.message);
+        }
+      });
   };
 
   return (
@@ -26,7 +45,7 @@ const LoginPage = () => {
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
-              type="email"
+              
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}

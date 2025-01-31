@@ -1,7 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 
-const Navbar = () => {
+function Navbar({ user }) {
 
   return (
     <div className="navbar">
@@ -13,6 +13,8 @@ const Navbar = () => {
         <a href="/movies" className="nav-link">Movies</a>
         <a href="/about" className="nav-link">About</a>
         <a href="/contact" className="nav-link">Contact</a>
+        {user? (<a href="/login" className="nav-link">Logout</a>):(<a href="/login" className="nav-link">Login</a>) }
+        
         <a href="/login" className="nav-link">Login</a>
       </div>
     </div>

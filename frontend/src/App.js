@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MovieInfo from "./pages/MovieInfo";
 import Navbar from "./components/Navbar";
@@ -135,18 +135,23 @@ function App() {
       usersRating: 4.7,
     },
   ];
+  const [user, setUser] = useState(null);
+  /*useEffect(() => {
+    const token = getAuthToken();
+    if (token) {
+      // You can fetch user data if necessary
+      setUser(true);  // For simplicity, assuming user is authenticated if there's a token
+    }
+  }, []);*/
 
   return (
     <Router>
       <div className="App">
-        <Navbar />
+      <Navbar user={user} />
         <Routes>
           {/* Movies list page */}
           <Route path="/" element={<MoviesPage movies={movies} />} />
-          <Route
-            path="/login"
-            element={<LoginPage />}
-          />
+          <Route path="/login" element={<LoginPage setUser={setUser} />} />
           <Route
             path="/signup"
             element={<SignupPage />}
@@ -154,7 +159,7 @@ function App() {
           {/* Movie details page */}
           <Route
             path="/movie/:id"
-            element={<MovieInfo movies={movies} />}
+            element={<MovieInfo user={user} />}
           />
         </Routes>
       </div>
