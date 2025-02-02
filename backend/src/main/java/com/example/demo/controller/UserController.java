@@ -1,14 +1,16 @@
 package com.example.demo.controller;
 
-
+import jakarta.servlet.http.HttpServletResponse;
 import com.example.demo.model.User;
 import com.example.demo.service.JWTService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.Cookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.Map;
 
 @RestController
@@ -50,12 +52,20 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
+    public ResponseEntity<?> loginUser(@RequestBody User loginRequest, HttpServletResponse response) {
         return userService.findByUsername(loginRequest.getUsername())
                 .map(user -> {
                     if (passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())) {
                         String token = jwtService.generateToken(user.getUsername());
-                        return ResponseEntity.ok(Map.of("token", token));
+
+                        Cookie cookie = new Cookie("jwt", token);
+                        cookie.setHttpOnly(true); // Prevent access from JavaScript
+                        cookie.setSecure(true); // Enable in HTTPS (false for local dev)
+                        cookie.setPath("/"); // Accessible throughout the application
+                        cookie.setMaxAge(60*60*24); // 1 day expiry
+
+                        response.addCookie(cookie);
+                        return ResponseEntity.ok(user);
                     } else {
                         return ResponseEntity.status(401).body("Invalid credentials");
                     }

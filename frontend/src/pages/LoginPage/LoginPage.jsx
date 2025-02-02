@@ -3,7 +3,7 @@ import React from "react";
 import "./LoginPage.css";
 import axios from 'axios'
 
-const LoginPage = () => {
+const LoginPage = ({setUser}) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +13,7 @@ const LoginPage = () => {
     // Add your Google authentication logic here
   };
 
-  const handleSubmit =  (e) => {
+  const handleSubmit =  async(e) => {
     e.preventDefault();
     console.log("Email:", email);
     console.log("Password:", password);
@@ -23,9 +23,11 @@ const LoginPage = () => {
       data: {
             "username": email,
             "password": password
-      }
+      },
+       withCredentials: true,
+      
     })
-      .then(response => console.log(response.data))
+      .then(response => setUser(response.data))
       .catch(error => {
         if (error.response) {
           console.error('Server responded with:', error.response.status);
