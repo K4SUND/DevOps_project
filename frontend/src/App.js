@@ -1,6 +1,7 @@
 import React from "react";
 import MovieInfo from "./pages/MovieInfo";  // Make sure MovieDetails is updated to match the new design
 import Navbar from "./components/Navbar";
+import Movies from "./pages/Movies";
 
 function App() {
   const movie = {
@@ -20,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <MovieInfo
+      {/* <MovieInfo
         title={movie.title}
         description={movie.description}
         releaseDate={movie.releaseDate}
@@ -30,7 +31,8 @@ function App() {
         duration={movie.duration}
         criticsRating={movie.criticsRating}
         usersRating={movie.usersRating}
-      />
+      /> */}
+      <Movies/>
     </div>
   );
 }
