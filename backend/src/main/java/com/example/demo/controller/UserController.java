@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.LoginRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.example.demo.model.User;
 import com.example.demo.service.JWTService;
@@ -44,7 +45,7 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username)
     {
-        return userService.findByUsername(username)
+        return userService.findByUsernameOrEmail(username)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
 
@@ -52,17 +53,17 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User loginRequest, HttpServletResponse response) {
-        return userService.findByUsername(loginRequest.getUsername())
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+        return userService.findByUsernameOrEmail(loginRequest.getIdentifier()) // Use identifier instead of username
                 .map(user -> {
-                    if (passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())) {
+                    if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
                         String token = jwtService.generateToken(user.getUsername());
 
                         Cookie cookie = new Cookie("jwt", token);
-                        cookie.setHttpOnly(true); // Prevent access from JavaScript
-                        cookie.setSecure(true); // Enable in HTTPS (false for local dev)
-                        cookie.setPath("/"); // Accessible throughout the application
-                        cookie.setMaxAge(60*60*24); // 1 day expiry
+                        cookie.setHttpOnly(true);
+                        cookie.setSecure(true);
+                        cookie.setPath("/");
+                        cookie.setMaxAge(60 * 60 * 24); // 1 day expiry
 
                         response.addCookie(cookie);
                         return ResponseEntity.ok(user);

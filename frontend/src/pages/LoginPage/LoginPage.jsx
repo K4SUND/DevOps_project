@@ -4,8 +4,7 @@ import "./LoginPage.css";
 import axios from 'axios'
 
 const LoginPage = ({setUser}) => {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
 
   const handleGoogleLogin = () => {
@@ -15,19 +14,21 @@ const LoginPage = ({setUser}) => {
 
   const handleSubmit =  async(e) => {
     e.preventDefault();
-    console.log("Email:", email);
+    console.log("identifier:", identifier);
     console.log("Password:", password);
     axios({
       method: 'post',
       url: `${process.env.REACT_APP_API_BASE_URL}/api/users/login`,
       data: {
-            "username": email,
-            "password": password
+        identifier: identifier,
+        password: password
       },
-       withCredentials: true,
+      withCredentials: true,
       
     })
-      .then(response => setUser(response.data))
+      .then(
+        response => setUser(response.data)
+    )
       .catch(error => {
         if (error.response) {
           console.error('Server responded with:', error.response.status);
@@ -49,8 +50,8 @@ const LoginPage = ({setUser}) => {
             <input
               
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
               placeholder="Enter your email"
               required
             />
