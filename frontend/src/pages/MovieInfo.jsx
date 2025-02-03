@@ -1,60 +1,57 @@
-import React, { useState } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
+import Rating from "../components/Rating/Rating";
 import "./MovieInfo.css";
 
-function MovieInfo({ title, description, releaseDate, rating, imageUrl, genre, duration, criticsRating, usersRating }) {
-  const [review, setReview] = useState("");
+const MovieInfo = ({ movies }) => {
+  const { id } = useParams();
+  const movie = movies.find((m) => m.id === parseInt(id));
 
-  const handleReviewChange = (event) => {
-    setReview(event.target.value);
-  };
-
-  const handleAddReview = () => {
-    if (review.trim()) {
-      alert(`Review added: ${review}`);
-      setReview(""); // Clear review after submission
-    } else {
-      alert("Please enter a review!");
-    }
-  };
+  if (!movie) {
+    return <h2>Movie not found</h2>;
+  }
 
   return (
     <div className="movie-details-container">
       <div className="movie-image-wrapper">
-        <img src={imageUrl} alt={title} className="movie-image" />
+        <img
+          src={movie.imageUrl}
+          alt={movie.title}
+          className="movie-image"
+        />
         <div className="movie-info-overlay">
           <div className="movie-header">
-            <h2>{title}</h2>
-            <p className="release-date">{new Date(releaseDate).toLocaleDateString()}</p>
+            <h2>{movie.title}</h2>
+            <p className="release-date">Release Date: {movie.releaseDate}</p>
           </div>
-          <p className="movie-description">{description}</p>
+          <p className="movie-description">{movie.description}</p>
           <div className="movie-meta">
-            <span className="duration">{duration}</span>
-            <span className="genre">{genre}</span>
+            <span><strong>Genre:</strong> {movie.genre}</span>
+            <span><strong>Duration:</strong> {movie.duration} mins</span>
           </div>
           <div className="rating-section">
             <div className="critics-rating">
-              <strong>Critic's Rating:</strong> {criticsRating}/5
+              <strong>Critics Rating:</strong> {movie.criticsRating}
             </div>
             <div className="users-rating">
-              <strong>Avg. User's Rating:</strong> {usersRating}/5
+              <strong>Users Rating:</strong> <Rating rating={movie.rating} />
             </div>
           </div>
         </div>
       </div>
       <div className="review-container">
-            <textarea
-              value={review}
-              onChange={handleReviewChange}
-              placeholder="Add your review here..."
-              rows="4"
-              className="review-textarea"
-            />
-            <button className="review-button" onClick={handleAddReview}>
-              Add Review
-            </button>
-          </div>
+        <textarea
+          className="review-textarea"
+          placeholder="Write your review here..."
+        />
+        <button className="review-button">Submit Review</button>
+      </div>
+      <div className="social-buttons">
+        <button className="social-btn">Share</button>
+        <button className="social-btn">Like</button>
+      </div>
     </div>
   );
-}
+};
 
 export default MovieInfo;

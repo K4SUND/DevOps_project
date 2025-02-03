@@ -4,6 +4,8 @@ import com.example.demo.dao.UserDAO;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +27,8 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userDAO.findByUsername(username);
+    public Optional<User> findByUsernameOrEmail(String identifier) {
+        return userDAO.findByUsernameOrEmail(identifier);
     }
 
     @Override

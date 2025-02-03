@@ -1,14 +1,17 @@
 package com.example.demo.controller;
 
-
+import com.example.demo.dto.LoginRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import com.example.demo.model.User;
 import com.example.demo.service.JWTService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.Cookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.Map;
 
 @RestController
@@ -42,7 +45,7 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username)
     {
-        return userService.findByUsername(username)
+        return userService.findByUsernameOrEmail(username)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
 
@@ -50,12 +53,20 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
-        return userService.findByUsername(loginRequest.getUsername())
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+        return userService.findByUsernameOrEmail(loginRequest.getIdentifier()) // Use identifier instead of username
                 .map(user -> {
-                    if (passwordEncoder.matches(loginRequest.getPassword(),user.getPassword())) {
+                    if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
                         String token = jwtService.generateToken(user.getUsername());
-                        return ResponseEntity.ok(Map.of("token", token));
+
+                        Cookie cookie = new Cookie("jwt", token);
+                        cookie.setHttpOnly(true);
+                        cookie.setSecure(true);
+                        cookie.setPath("/");
+                        cookie.setMaxAge(60 * 60 * 24); // 1 day expiry
+
+                        response.addCookie(cookie);
+                        return ResponseEntity.ok(user);
                     } else {
                         return ResponseEntity.status(401).body("Invalid credentials");
                     }
