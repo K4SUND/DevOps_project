@@ -10,7 +10,6 @@ function Navbar({ user }) {
       </div>
       <div className="navbar-links">
         <a href="/" className="nav-link">Home</a>
-        <a href="/movies" className="nav-link">Movies</a>
         <a href="/about" className="nav-link">About</a>
         <a href="/contact" className="nav-link">Contact</a>
         {user? (<a href="/login" className="nav-link">Logout</a>):(<a href="/login" className="nav-link">Login</a>) }

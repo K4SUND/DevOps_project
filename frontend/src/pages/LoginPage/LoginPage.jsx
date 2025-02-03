@@ -26,9 +26,12 @@ const LoginPage = ({setUser}) => {
       withCredentials: true,
       
     })
-      .then(
-        response => setUser(response.data)
-    )
+      .then
+        (response => {
+          setUser(response.data); // Set the user state
+          localStorage.setItem("user", JSON.stringify(response.data)); // Save the response data to localStorage
+        })
+    
       .catch(error => {
         if (error.response) {
           console.error('Server responded with:', error.response.status);

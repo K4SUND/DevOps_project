@@ -8,14 +8,19 @@ import SignupPage from "./pages/SignupPage/SignupPage";
 import Movies from "./pages/Movies";
 
 function App() {
-  const [user, setUser] = useState(null);
-  /*useEffect(() => {
-    const token = getAuthToken();
-    if (token) {
-      // You can fetch user data if necessary
-      setUser(true);  // For simplicity, assuming user is authenticated if there's a token
+  const [user, setUser] = useState(() => {
+    // Load user from local storage on initial render
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
     }
-  }, []);*/
+  }, [user]);
 
   return (
     <Router>

@@ -9,8 +9,6 @@ export default function Movies() {
     const [category, setCategory] = useState("top250"); // Default category
 
     const API_BASE_URL = "https://imdb236.p.rapidapi.com/imdb";
-    const API_KEY = process.env.REACT_APP_RAPIDAPI_KEY;
-    const API_HOST = process.env.REACT_APP_RAPIDAPI_HOST;
 
     // API endpoints for different categories
     const categoryEndpoints = {
@@ -24,12 +22,12 @@ export default function Movies() {
     const fetchMovies = async () => {
         setLoading(true);
         setError(null);
-
+        console.log("API Key:", process.env.REACT_APP_RAPID_API_KEY);
         try {
             const res = await axios.get(`${API_BASE_URL}/${categoryEndpoints[category]}`, {
                 headers: {
-                    "x-rapidapi-key": process.env.REACT_APP_RAPIDAPI_KEY,
-                    "x-rapidapi-host": process.env.REACT_APP_RAPIDAPI_KEY,
+                    "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY,
+                    "x-rapidapi-host": process.env.REACT_APP_RAPID_API_HOST,
                 },
             });
 
