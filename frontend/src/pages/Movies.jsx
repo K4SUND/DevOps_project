@@ -68,7 +68,7 @@ export default function Movies() {
                 onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
             >
                 <img
-                    src={movie.primaryImage || "https://via.placeholder.com/250"}
+                    src={movie.primaryImage || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmVq-OmHL5H_5P8b1k306pFddOe3049-il2A&s"}
                     alt={movie.primaryTitle}
                     style={{
                         width: "100%",

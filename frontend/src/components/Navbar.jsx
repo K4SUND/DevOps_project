@@ -1,21 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
-function Navbar({ user }) {
+function Navbar({ user, setUser }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Logout function to clear user state
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+  };
 
   return (
-    <div className="navbar">
+    <nav className="navbar">
+      {/* Brand Logo */}
       <div className="navbar-brand">
-        <a href="/" className="logo">MovieApp</a>
+        <Link to="/" className="logo">MovieApp</Link>
       </div>
-      <div className="navbar-links">
-        <a href="/" className="nav-link">Home</a>
-        <a href="/about" className="nav-link">About</a>
-        <a href="/contact" className="nav-link">Contact</a>
-        {user? (<a href="/login" className="nav-link">Logout</a>):(<a href="/login" className="nav-link">Login</a>) }
+
+      {/* Hamburger Menu Button (Visible on Mobile) */}
+      <button 
+        className={`menu-toggle ${isOpen ? "open" : ""}`} 
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        ☰
+      </button>
+
+      {/* Navigation Links */}
+      <div className={`navbar-links ${isOpen ? "active" : ""}`}>
+        <Link to="/" className="nav-link" onClick={() => setIsOpen(false)}>Home</Link>
+        <Link to="/about" className="nav-link" onClick={() => setIsOpen(false)}>About</Link>
+        <Link to="/contact" className="nav-link" onClick={() => setIsOpen(false)}>Contact</Link>
+        
+        {user ? (
+          <button className="nav-link logout-btn" onClick={handleLogout}>Logout</button>
+        ) : (
+          <Link to="/login" className="nav-link" onClick={() => setIsOpen(false)}>Login</Link>
+        )}
       </div>
-    </div>
+    </nav>
   );
-};
+}
 
 export default Navbar;

@@ -1,39 +1,122 @@
 /* Basic Navbar Styling */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #000000;
-    padding: 15px 30px;
-    color: #fff;
-    font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000000;
+  padding: 15px 30px;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Push content down to avoid overlap */
+body {
+  padding-top: 70px;
+  overflow-x: hidden;  /* ✅ Prevent horizontal scroll */
+}
+
+/* Brand Logo */
+.navbar-brand {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar .logo {
+  color: #ebcc33;
+  text-decoration: none;
+}
+
+/* Navbar Links */
+.navbar-links {
+  resize: both;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;  /* ✅ Ensures items stay inside */
+  margin-right: 50px;
+}
+
+/* Individual Nav Links */
+.navbar .nav-link, .logout-btn {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navbar .nav-link:hover, .logout-btn:hover {
+  background-color: #ff5733;
+  border-radius: 5px;
+}
+
+/* ✅ Mobile Responsiveness Fix */
+@media (max-width: 768px) {
+  .navbar {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      
   }
-  
-  .navbar-brand {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .navbar .logo {
-    color: #ebcc33;
-    text-decoration: none;
-  }
-  
+
+  /* Hide links initially */
   .navbar-links {
-    display: flex;
-    gap: 20px;
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      text-align: center;
+      padding: 10px 0 0 0;
+      overflow: hidden;  /* ✅ Prevents cutoff */
   }
-  
-  .navbar .nav-link {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 5px 10px;
-    transition: background-color 0.3s ease;
+
+  .navbar-links.active {
+      display: flex;
   }
-  
-  .navbar .nav-link:hover {
-    background-color: #ff5733;
-    border-radius: 5px;
+
+  .navbar .nav-link, .logout-btn {
+      display: block;
+      padding: 15px;
+      font-size: 18px;
+      width: 100%; /* ✅ Ensures it doesn’t go off-screen */
   }
-  
+
+  /* Hamburger Button */
+  .menu-toggle {
+      display: block;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 26px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      padding-right: 30px;
+  }
+
+  .menu-toggle.open {
+      transform: rotate(90deg);
+  }
+}
+
+/* Desktop - Keep Menu Always Visible */
+@media (min-width: 769px) {
+  .menu-toggle {
+      display: none;
+  }
+
+  .navbar-links {
+      display: flex !important;
+  }
+}
