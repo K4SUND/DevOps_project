@@ -54,24 +54,27 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        return userService.findByUsernameOrEmail(loginRequest.getIdentifier()) // Use identifier instead of username
-                .map(user -> {
-                    if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-                        String token = jwtService.generateToken(user.getUsername());
+        Optional<User> userOptional = userService.findByUsernameOrEmail(loginRequest.getIdentifier());
 
-                        Cookie cookie = new Cookie("jwt", token);
-                        cookie.setHttpOnly(true);
-                        cookie.setSecure(true);
-                        cookie.setPath("/");
-                        cookie.setMaxAge(60 * 60 * 24); // 1 day expiry
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(404).body("User not found");
+        }
 
-                        response.addCookie(cookie);
-                        return ResponseEntity.ok(user);
-                    } else {
-                        return ResponseEntity.status(401).body("Invalid credentials");
-                    }
-                })
-                .orElse(ResponseEntity.status(404).body("User not found"));
+        User user = userOptional.get();
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(401).body("Invalid credentials");
+        }
+
+        String token = jwtService.generateToken(user.getUsername());
+
+        Cookie cookie = new Cookie("jwt", token);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24); // 1 day expiry
+
+        response.addCookie(cookie);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/logout")

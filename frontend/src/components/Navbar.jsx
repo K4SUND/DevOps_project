@@ -13,7 +13,6 @@ function Navbar({ user, setUser }) {
 
   return (
     <nav className="navbar">
-      {/* Brand Logo */}
       <div className="navbar-brand">
         <Link to="/" className="logo">MovieApp</Link>
       </div>
