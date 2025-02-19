@@ -8,7 +8,7 @@ const LoginPage = ({setUser}) => {
   const [password, setPassword] = useState("");
 
   const handleGoogleLogin = () => {
-    console.log("Google Login clicked");
+    console.log("Google Login clicked onc");
     // Add your Google authentication logic here
   };
 
