@@ -26,8 +26,8 @@ export default function Movies() {
         try {
             const res = await axios.get(`${API_BASE_URL}/${categoryEndpoints[category]}`, {
                 headers: {
-                    "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY,
-                    "x-rapidapi-host": process.env.REACT_APP_RAPID_API_HOST,
+                    "x-rapidapi-key": API_KEY,
+                    "x-rapidapi-host": API_HOST,
                 },
             });
 
