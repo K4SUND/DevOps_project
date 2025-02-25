@@ -1,0 +1,47 @@
+# Compiled code and build outputs
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE specific files
+.idea/
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Docker files themselves
+Dockerfile
+.dockerignore
+
+# Git directory
+.git/
+.gitignore
+
+# Node modules (if your project uses npm/node)
+node_modules/
+
+# Maven wrapper jar (not needed as we'll generate it)
+.mvn/wrapper/maven-wrapper.jar
+
+# Temporary files
+tmp/
+temp/
+
+# Application properties that shouldn't be in the image (we'll set as ENV vars)
+# Uncomment if you're NOT including these as ENV vars in Dockerfile
+# src/main/resources/application-*.properties
+# src/main/resources/application-*.yml
