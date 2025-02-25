@@ -1,42 +1,33 @@
-version: '3.8'
+
 
 services:
-  database:
-    image: postgres:15
-    container_name: postgres_db
-    restart: always
-    environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
+  
   backend:
     build:
       context: ./backend
-      dockerfile: backend.Dockerfile
+      dockerfile: Dockerfile
     container_name: spring_boot_app
-    depends_on:
-      - database
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/moview_review
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 8482
     ports:
-      - "8080:8080"
+      - "5000:5000"    
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pg-3350361-kasundilumina2016-fd51.d.aivencloud.com:24658/defaultdb?sslmode=require
+      - SPRING_DATASOURCE_USERNAME=avnadmin
+      - SPRING_DATASOURCE_PASSWORD=AVNS_W6ko1AyVESlwkdEqaoe  
+    networks:
+      - app_network
 
   frontend:
     build:
       context: ./frontend
-      dockerfile: frontend.Dockerfile
+      dockerfile: Dockerfile
     container_name: react_app
+    ports:
+      - "80:80"
     depends_on:
       - backend
-    ports:
-      - "3000:80"
+    networks:
+      - app_network
 
-volumes:
-  postgres_data:
+
+networks:
+  app_network:
